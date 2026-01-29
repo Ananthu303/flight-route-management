@@ -1,18 +1,20 @@
-"""
-Django settings for flight_routes project.
-"""
-
 import os
 from pathlib import Path
+from environs import Env
+
+env = Env()
+env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-development-key-change-in-production"
+SECRET_KEY = env.str(
+    "SECRET_KEY",
+    default="django-insecure-Epf14KWLk7XuUooyI39oDWDuuNIHAq2-7bmBeCjTVNfcPcZZrQpxrWCiYg7M3SDrLmY",
+)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -61,6 +63,17 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+# Postgres Database setup
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env("DB_NAME"),
+#         "USER": env("DB_USER"),
+#         "PASSWORD": env("DB_PASSWORD"),
+#         "HOST": env("DB_HOST"),
+#         "PORT": 5432,
+#     }
+# }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

@@ -228,7 +228,7 @@ In this example:
 ## 🎨 Technologies Used
 
 - **Backend**: Django 4.2+
-- **Database**: SQLite (default, can be changed to PostgreSQL/MySQL)
+- **Database**: SQLite (default, can be changed to PostgreSQL)
 - **Frontend**: HTML5, CSS3, Bootstrap 5
 - **Icons**: Bootstrap Icons
 - **Template Engine**: Django Templates
