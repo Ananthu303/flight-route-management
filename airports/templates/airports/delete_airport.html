@@ -1,0 +1,59 @@
+{% extends 'airports/base.html' %}
+
+{% block title %}Delete Airport Route - Flight Routes System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <i class="bi bi-exclamation-triangle"></i> {{ title }}
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <strong>Warning!</strong> This action cannot be undone.
+                </div>
+
+                <p>Are you sure you want to delete the following airport route?</p>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ airport.airport_code }}</h5>
+                        <p class="mb-1">
+                            <strong>Position:</strong> {{ airport.position }}
+                        </p>
+                        <p class="mb-1">
+                            <strong>Duration:</strong> {{ airport.duration }} minutes
+                        </p>
+                        {% if airport.left %}
+                        <p class="mb-1">
+                            <strong>Left Route:</strong>
+                            <span class="badge bg-success">{{ airport.left.airport_code }}</span>
+                        </p>
+                        {% endif %}
+                        {% if airport.right %}
+                        <p class="mb-0">
+                            <strong>Right Route:</strong>
+                            <span class="badge bg-info">{{ airport.right.airport_code }}</span>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'airport_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Yes, Delete Airport
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

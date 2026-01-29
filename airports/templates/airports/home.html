@@ -1,0 +1,189 @@
+{% extends 'airports/base.html' %}
+
+{% block title %}Home - Flight Routes System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">
+            <i class="bi bi-airplane-engines"></i> Flight Routes Dashboard
+        </h1>
+        <p class="lead">Manage and analyze airport route networks</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-geo-alt"></i> Total Airports
+                </h5>
+                <p class="stat-number">{{ total_airports }}</p>
+                <a href="{% url 'airport_list' %}" class="btn btn-sm btn-outline-primary">
+                    View All <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-clock"></i> Longest Duration
+                </h5>
+                {% if longest_duration_airport %}
+                <p class="stat-number">{{ longest_duration_airport.duration }} min</p>
+                <p class="mb-2">
+                    <strong>{{ longest_duration_airport.airport_code }}</strong>
+                </p>
+                <a href="{% url 'longest_duration' %}" class="btn btn-sm btn-outline-primary">
+                    Details <i class="bi bi-arrow-right"></i>
+                </a>
+                {% else %}
+                <p class="text-muted">No airports yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="bi bi-lightning"></i> Shortest Duration
+                </h5>
+                {% if shortest_duration_airport %}
+                <p class="stat-number">{{ shortest_duration_airport.duration }} min</p>
+                <p class="mb-2">
+                    <strong>{{ shortest_duration_airport.airport_code }}</strong>
+                </p>
+                <a href="{% url 'shortest_duration' %}" class="btn btn-sm btn-outline-primary">
+                    Details <i class="bi bi-arrow-right"></i>
+                </a>
+                {% else %}
+                <p class="text-muted">No airports yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-lightning-charge"></i> Quick Actions
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'add_airport' %}" class="btn btn-primary w-100">
+                            <i class="bi bi-plus-circle"></i><br>
+                            Add New Airport
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'search_last_reachable' %}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-search"></i><br>
+                            Find Last Reachable
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'longest_duration' %}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-clock-history"></i><br>
+                            Longest Duration
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'shortest_duration' %}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-lightning"></i><br>
+                            Shortest Duration
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Airports -->
+{% if recent_airports %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clock-history"></i> Recently Added Airports
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Airport Code</th>
+                                <th>Position</th>
+                                <th>Duration</th>
+                                <th>Left Route</th>
+                                <th>Right Route</th>
+                                <th>Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for airport in recent_airports %}
+                            <tr>
+                                <td><strong>{{ airport.airport_code }}</strong></td>
+                                <td>{{ airport.position }}</td>
+                                <td>
+                                    <span class="badge bg-primary badge-duration">
+                                        {{ airport.duration }} min
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if airport.left %}
+                                    <span class="badge bg-success">{{ airport.left.airport_code }}</span>
+                                    {% else %}
+                                    <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if airport.right %}
+                                    <span class="badge bg-info">{{ airport.right.airport_code }}</span>
+                                    {% else %}
+                                    <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ airport.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <a href="{% url 'airport_list' %}" class="btn btn-sm btn-outline-primary">
+                    View All Airports <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if not recent_airports %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
+                <h3 class="mt-3">No Airports Yet</h3>
+                <p class="text-muted">Get started by adding your first airport route!</p>
+                <a href="{% url 'add_airport' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Add Airport Route
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

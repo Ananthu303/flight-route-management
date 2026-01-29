@@ -1,0 +1,104 @@
+{% extends 'airports/base.html' %}
+
+{% block title %}Airport Routes List - Flight Routes System{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col">
+        <h2>
+            <i class="bi bi-list"></i> {{ title }}
+        </h2>
+    </div>
+    <div class="col text-end">
+        <a href="{% url 'add_airport' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Airport
+        </a>
+    </div>
+</div>
+
+{% if airports %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Airport Code</th>
+                        <th>Position</th>
+                        <th>Duration</th>
+                        <th>Left Route</th>
+                        <th>Right Route</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for airport in airports %}
+                    <tr>
+                        <td>
+                            <strong class="text-primary">{{ airport.airport_code }}</strong>
+                        </td>
+                        <td>{{ airport.position }}</td>
+                        <td>
+                            <span class="badge bg-primary badge-duration">
+                                <i class="bi bi-clock"></i> {{ airport.duration }} min
+                            </span>
+                        </td>
+                        <td>
+                            {% if airport.left %}
+                            <span class="badge bg-success">
+                                <i class="bi bi-arrow-left"></i> {{ airport.left.airport_code }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if airport.right %}
+                            <span class="badge bg-info">
+                                <i class="bi bi-arrow-right"></i> {{ airport.right.airport_code }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ airport.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{% url 'edit_airport' airport.pk %}" class="btn btn-outline-primary"
+                                    title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{% url 'delete_airport' airport.pk %}" class="btn btn-outline-danger"
+                                    title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-3">
+            <p class="text-muted mb-0">
+                <i class="bi bi-info-circle"></i>
+                Total airports: <strong>{{ airports.count }}</strong>
+            </p>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
+        <h3 class="mt-3">No Airports Found</h3>
+        <p class="text-muted">Start by adding your first airport route!</p>
+        <a href="{% url 'add_airport' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add Airport Route
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

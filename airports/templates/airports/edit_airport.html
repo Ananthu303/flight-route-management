@@ -1,0 +1,112 @@
+{% extends 'airports/base.html' %}
+
+{% block title %}Edit Airport Route - Flight Routes System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-pencil"></i> {{ title }}
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.airport_code.id_for_label }}" class="form-label">
+                            Airport Code <span class="text-danger">*</span>
+                        </label>
+                        {{ form.airport_code }}
+                        {% if form.airport_code.errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.airport_code.errors }}
+                        </div>
+                        {% endif %}
+                        <small class="form-text text-muted">
+                            {{ form.airport_code.help_text }}
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.position.id_for_label }}" class="form-label">
+                            Position <span class="text-danger">*</span>
+                        </label>
+                        {{ form.position }}
+                        {% if form.position.errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.position.errors }}
+                        </div>
+                        {% endif %}
+                        <small class="form-text text-muted">
+                            {{ form.position.help_text }}
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.duration.id_for_label }}" class="form-label">
+                            Duration (minutes) <span class="text-danger">*</span>
+                        </label>
+                        {{ form.duration }}
+                        {% if form.duration.errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.duration.errors }}
+                        </div>
+                        {% endif %}
+                        <small class="form-text text-muted">
+                            {{ form.duration.help_text }}
+                        </small>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mb-3">
+                        <i class="bi bi-diagram-3"></i> Route Connections
+                    </h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.left.id_for_label }}" class="form-label">
+                                Left Child Airport
+                            </label>
+                            {{ form.left }}
+                            {% if form.left.errors %}
+                            <div class="text-danger mt-1">
+                                {{ form.left.errors }}
+                            </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                {{ form.left.help_text }}
+                            </small>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.right.id_for_label }}" class="form-label">
+                                Right Child Airport
+                            </label>
+                            {{ form.right }}
+                            {% if form.right.errors %}
+                            <div class="text-danger mt-1">
+                                {{ form.right.errors }}
+                            </div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                {{ form.right.help_text }}
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{% url 'airport_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Update Airport Route
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
