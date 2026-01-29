@@ -111,9 +111,9 @@ class AirportRoute(models.Model):
 
 ### Step-by-Step Installation
 
-1. **Extract/Navigate to project directory:**
+1. **Clone the repository and navigate to the root folder:**
    ```bash
-   cd flight_routes_project
+   cd flight-route-management
    ```
 
 2. Create and Activate a Virtual Environment
@@ -135,8 +135,9 @@ class AirportRoute(models.Model):
    ```
 
 Once activated, your terminal should show something like `(venv)` indicating that the virtual environment is active.
-3. **Install dependencies:**
+3. **Navigate to the project directory and install dependencies**
    ```bash
+   cd flight_routes_project
    pip install -r requirements.txt
    ```
 
