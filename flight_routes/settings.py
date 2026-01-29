@@ -63,7 +63,7 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-# Postgres Database setup
+# Postgres Database
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
